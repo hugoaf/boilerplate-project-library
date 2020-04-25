@@ -3,12 +3,18 @@
 var express     = require('express');
 var bodyParser  = require('body-parser');
 var cors        = require('cors');
-
+var helmet      = require('helmet');
 var apiRoutes         = require('./routes/api.js');
 var fccTestingRoutes  = require('./routes/fcctesting.js');
 var runner            = require('./test-runner');
 
 var app = express();
+
+// Security measures
+app.use(helmet.hidePoweredBy({ setTo:'PHP 4.2.0'}));
+app.use(helmet.noCache());
+app.use(helmet.xssFilter()); // this wasnt requested in project user stories
+// end
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
